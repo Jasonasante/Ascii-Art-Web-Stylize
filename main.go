@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 )
+
 type Text struct {
 	Input  string
 	Output string
@@ -142,5 +143,6 @@ func main() {
 	// starts up a web server listening on port 8080 using the default http handlers
 	// so when we run the file, we open a browser and type: "http://localhost:8080/"
 	// which is saying 'try to load a web page from this computer at port 8080'
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 	http.ListenAndServe(":8080", nil)
 }

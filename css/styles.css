@@ -6,6 +6,10 @@ h1, p {
 .banners{
     text-align: center;
 }
-body{
-    background-image: url();
+body {
+height:100% ; 
+}
+.bg{
+background-image:url(css/ascii-art.jpg);
+height:100% ; 
 }
