@@ -1,0 +1,11 @@
+h1, p {
+    color: yellow;
+    text-align: center;
+    font-family: "Verdana";
+}
+.banners{
+    text-align: center;
+}
+body{
+    background-image: url();
+}
