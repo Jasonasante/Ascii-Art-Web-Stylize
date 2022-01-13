@@ -1,41 +1,40 @@
 <!DOCTYPE html>
-<head>
-<h1 class="title">Ascii Art GUI Generator!</h1>
-<p class="description"> To make plain text into something spectacular</p>
-<link rel="stylesheet" href="css/styles.css">
-</head>
-<body> 
-<form action="/ascii-art" method="post">
-    <div class="bg">
-    </div>
-<div class="banners">
-    <input type="radio" id="standard" name="banner" value="standard">
-    <label for="standard">Standard</label>
-    <input type="radio" id="shadow" name="banner" value="shadow">
-    <label for="shadow">Shadow</label>
-    <input type="radio" id="thinkertoy" name="banner" value="thinkertoy">
-    <label for="thinkertoy">Thinkertoy</label><br>    
-</div>
+    <header>
+        <h1 class="title">Ascii Art GUI Generator!</h1>
+        <p class="description"> To make plain text into something spectacular</p>
+        <link rel="stylesheet" href="css/styles.css">
+    </header>
 
-<br>
+    <body> 
+        <form action="/ascii-art" method="post">
 
-<div class="input">
-    <label for="input">Input Text:</label><br>
-    <!-- the {{.}} calls on the data that is defined in the t.execute command. So {{.Input}} calls on the variable Input that is defined in the data-->
-    <textarea id="input" name="input" rows="3" cols="50">{{.Input}}</textarea><br>
-    <input type="submit" value="Convert"><br>
-</div>
+        <div class="banners">
+            <input type="radio" id="standard" name="banner" value="standard">
+            <label for="standard" id=standardText>Standard</label>
+            <input type="radio" id="shadow" name="banner" value="shadow">
+            <label for="shadow"id=shadowText>Shadow</label>
+            <input type="radio" id="thinkertoy" name="banner" value="thinkertoy">
+            <label for="thinkertoy" id=thinkertoyText>Thinkertoy</label><br>    
+        </div>
 
-<br>
-    
-<div class="output">
-    <label for="output">Output:</label><br>
-    <!-- do not tab in front of {{.Output}} as it would add tabs to the beginning of the output-->
-    <textarea readonly id="output" name="output" rows="12" cols="50">
+    <br>
+
+        <div class="input">
+            <!-- the {{.}} calls on the data that is defined in the t.execute command. So {{.Input}} calls on the variable Input that is defined in the data-->
+            <textarea id="input" name="input" rows="1" cols="50" placeholder="Insert Text Here">{{.Input}}</textarea>
+            <input type="submit" id=convertButton value="Convert"><br>
+        </div>
+
+    <br>
+        
+        <div class="output">
+            <label for="output">Output:</label><br>
+        <!-- do not tab in front of {{.Output}} as it would add tabs to the beginning of the output-->
+            <textarea readonly id="output" name="output" rows="7" cols="50">
 {{.Output}}
         </textarea>
-</div>
-<br/>
-</form>
-</body>
+        </div>
+    <br/>
+        </form>
+    </body>
 </html>
