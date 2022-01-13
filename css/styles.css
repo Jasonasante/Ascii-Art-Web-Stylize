@@ -1,11 +1,11 @@
 header {
-    color: black;
+    color: rgb(177, 143, 235);
     text-align: center;
     font-family: "Verdana";
     padding: 5px;
+    margin-bottom: 10px;
     border-radius: 50px;
-    background-color: white;
-    background-image:url(../css/ascii-art.jpg);
+    background-color: rgb(49, 49, 49);
 
 }
 
@@ -18,58 +18,109 @@ background-size: cover;
 .banners{
     font-family: "Verdana";
     text-align: center;
-    padding: 5px;
+    padding: 30px;
 }
 
-#standardText:hover{
+#standardText{
     height: 10px;
     width: 10px;
     padding: 5px;
     border-radius: 10px;
     background-color: #f7a7a7;
 }
+#standardText:active {
+    height: 10px;
+    width: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    color: #f7a7a7;
+    border-color:#f7a7a7 ;
+    border-width: 5px;
+    background-color: white;
+}
 
-#standardText:active,#standardText:focus {
+#shadowText{
     height: 10px;
     width: 10px;
     padding: 5px;
     border-radius: 10px;
     background-color: #f7a7a7;
 }
+#shadowText:active {
+    height: 10px;
+    width: 10px;
+    padding: 5px;
+    border-radius: 10px;
+    color: #f7a7a7;
+    border-color:#f7a7a7 ;
+    border-width: 10px;
+    background-color: white;
+}
 
-#shadowText:hover{
+#thinkertoyText{
     height: 10px;
     width: 10px;
     padding: 5px;
     border-radius: 10px;
     background-color: #f7a7a7;
 }
-
-#thinkertoyText:hover{
+#thinkertoyText:active {
     height: 10px;
     width: 10px;
     padding: 5px;
     border-radius: 10px;
-    background-color: #f7a7a7;
+    color: #f7a7a7;
+    border-color:#f7a7a7 ;
+    border-width: 5px;
+    background-color: white;
 }
+
 
 .input{
     text-align: center;
 }
 
 #input{
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    padding-left: 5px;
+    border-radius: 15px;
+    padding-left: 15px;
+    font-family:sans-serif;
+    font-size: large;
+    text-align: center;
 
 }
+
+
 #convertButton{
-    display:inline-block;
     vertical-align: top;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-radius: 15px;
+    color: rgb(177, 143, 235);
+    font-weight: bold;
+    font-family:sans-serif;
+    font-size: large;
+    margin: 10px;
+    border-color: rgb(49, 49, 49);
+    background-color: rgb(49, 49, 49);
+}
+#convertButton:active{
+    vertical-align: top;
+    border-radius: 15px;
+    color: #f7a7a7;
+    font-weight: bold;
+    font-family:sans-serif;
+    font-size: large;
+    margin: 10px;
+    border-color:#f7a7a7 ;
+    background-color: rgb(49, 49, 49);
 }
 
 .output{
     text-align: center;
 }
+
+#output{
+    font-size: medium;
+    text-align: center;
+    border-radius: 20px;
+    border-color:black ;
+}
+
