@@ -13,73 +13,71 @@ type Text struct {
 	Output string
 }
 
+func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
+	w.WriteHeader(status)
+	if status == http.StatusNotFound {
+		fmt.Fprint(w, "<h1>HTTP status 404: Page Not Found</h1>")
+	}
+	if status == http.StatusInternalServerError {
+		fmt.Fprint(w, "<h1>HTTP status 500: Internal Server Error</h1>")
+	}
+	if status == http.StatusBadRequest {
+		fmt.Fprintln(w, "<h1>HTTP status 400: Bad Request."+"\n"+"Please pick a banner, use printable characters or enter text.</h1>")
+		fmt.Fprintln(w, "Printable Characters:")
+		for i := 32; i <= 126; i++ {
+			fmt.Fprint(w, string(byte(i)))
+		}
+
+	}
+}
+
 // this handles the homepage
 func homePage(w http.ResponseWriter, r *http.Request) {
-	// if the handle is not / then it will return an error message
-	//also the w.WriteHeader posts the status of the page on the network section when inspecting the page
 	if r.URL.Path != "/" {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprint(w, "<h1>HTTP Status 404: Page Not Found</h1>")
+		errorHandler(w, r, http.StatusNotFound)
 		return
 	}
-	// t is the template file. ParseFiles opens up the template file and attempt to validate it.
-	// If everything is correct there will be a nil error and a *template
 	t, err := template.ParseFiles("template.html")
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error(</h1>")
-		fmt.Fprint(w, "<p>No banner Selected</p>")
+		errorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
-	// t.Executes runs the data input (in this case Text{}) throught the template
-	// which is then displayed on website via ResponseWriter
 	t.Execute(w, Text{})
 }
 
 // this handles the ascii-art output page
 func asciiPage(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/ascii-art" {
-		w.WriteHeader(http.StatusNotFound)
-		fmt.Fprint(w, "<h1>HTTP Status 404: Page Not Found</h1>")
+		errorHandler(w, r, http.StatusNotFound)
 		return
 	}
 	r.ParseForm()
 	input := r.Form["input"][0]
 	if input == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "<h1>HTTP Status 400: Bad Request</h1>")
-		fmt.Fprint(w, "<p>Empty input string</p>")
+		errorHandler(w, r, http.StatusBadRequest)
 		return
 	}
 	for _, ele := range input {
 		if (ele != 13) && (ele != 10) && (ele < 32 || ele > 126) {
-			w.WriteHeader(http.StatusBadRequest)
-			fmt.Fprint(w, "<h1>HTTP Status 400: Bad Request</h1>")
-			fmt.Fprint(w, "<p>Incorrect character detected</p>")
+			errorHandler(w, r, http.StatusBadRequest)
 			return
 		}
 	}
 	if r.FormValue("banner") == "" {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "<h1>HTTP Status 400: Bad Request</h1>")
-		fmt.Fprint(w, "<p>No banner Selected</p>")
+		errorHandler(w, r, http.StatusBadRequest)
 		return
 	}
 	banner := r.Form["banner"][0]
 	_, err := os.ReadFile(banner + ".txt")
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error(</h1>")
-		fmt.Fprint(w, "<p>No banner file found</p>")
+		errorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 	output := asciiArt(input, banner)
 	p := Text{Input: input, Output: output}
 	t, err := template.ParseFiles("result.html")
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "<h1>HTTP Status 500: Internal Server Error</h1>")
-		fmt.Fprint(w, "<p>No template found</p>")
+		errorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
 	t.Execute(w, p)
@@ -136,13 +134,7 @@ func main() {
 	fmt.Println("Starting Server at Port 8080")
 	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
 	http.HandleFunc("/", homePage)
-	// this handles the web request to the server with the path /
-	// so it covers all paths that the user may visit on the website and it would be processed by handlerFunc
-	// for example: t http://localhost:3000/some-other-path
 	http.HandleFunc("/ascii-art", asciiPage)
-	// starts up a web server listening on port 8080 using the default http handlers
-	// so when we run the file, we open a browser and type: "http://localhost:8080/"
-	// which is saying 'try to load a web page from this computer at port 8080'
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
 	http.ListenAndServe(":8080", nil)
 }
