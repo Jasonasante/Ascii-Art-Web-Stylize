@@ -21,16 +21,15 @@
 
         <div class="input">
             <!-- the {{.}} calls on the data that is defined in the t.execute command. So {{.Input}} calls on the variable Input that is defined in the data-->
-            <textarea id="input" name="input" rows="1" cols="50" placeholder="Insert Text Here">{{.Input}}</textarea>
+            <textarea id="input" name="input" rows="2" cols="50" placeholder="Insert Text Here">{{.Input}}</textarea><br>
             <input type="submit" id=convertButton value="Convert"><br>
         </div>
 
     <br>
         
         <div class="output">
-            <label for="output">Output:</label><br>
         <!-- do not tab in front of {{.Output}} as it would add tabs to the beginning of the output-->
-            <textarea readonly id="output" name="output" rows="7" cols="50">
+            <textarea readonly id="output" name="output" rows="20" cols="70">
 {{.Output}}
         </textarea>
         </div>
