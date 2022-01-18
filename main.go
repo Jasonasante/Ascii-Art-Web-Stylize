@@ -15,6 +15,7 @@ type Text struct {
 	ErrorMes string
 }
 
+//handles error messages
 func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
 	w.WriteHeader(status)
 	if status == http.StatusNotFound {
