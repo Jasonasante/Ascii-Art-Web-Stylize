@@ -9,24 +9,46 @@ import (
 )
 
 type Text struct {
-	Input  string
-	Output string
+	Input    string
+	Output   string
+	ErrorNum int
+	ErrorMes string
 }
 
 func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
 	w.WriteHeader(status)
 	if status == http.StatusNotFound {
-		fmt.Fprint(w, "<h1>HTTP status 404: Page Not Found</h1>")
+		t, err := template.ParseFiles("errorPage.html")
+		if err != nil {
+			errorHandler(w, r, http.StatusInternalServerError)
+			return
+		}
+		em := "HTTP status 404: Page Not Found"
+		p := Text{ErrorNum: status, ErrorMes: em}
+		t.Execute(w, p)
 	}
 	if status == http.StatusInternalServerError {
-		fmt.Fprint(w, "<h1>HTTP status 500: Internal Server Error</h1>")
+		t, err := template.ParseFiles("errorPage.html")
+		if err!=nil{
+			fmt.Fprint(w, "HTTP status 500: Internal Server Error -missing errorPage.html file")
+		}
+		em := "HTTP status 500: Internal Server Error"
+		p := Text{ErrorNum: status, ErrorMes: em}
+		t.Execute(w, p)
 	}
 	if status == http.StatusBadRequest {
-		fmt.Fprintln(w, "<h1>HTTP status 400: Bad Request."+"\n"+"Please pick a banner, use printable characters or enter text.</h1>")
-		fmt.Fprintln(w, "Printable Characters:")
-		for i := 32; i <= 126; i++ {
-			fmt.Fprint(w, string(byte(i)))
+		t, err := template.ParseFiles("errorPage.html")
+		if err != nil {
+			errorHandler(w, r, http.StatusInternalServerError)
+			return
 		}
+		print:=""
+		for i := 32; i <= 126; i++ {
+			print += string(byte(i))
+		}
+		em := ("HTTP status 400: Bad Request."+ "\n"+"Please pick a banner, use printable characters or enter text."+"\n"+"Printable Characters:"+"\n"+print)
+		p := Text{ErrorNum: status, ErrorMes: em}
+		t.Execute(w, p)
 
 	}
 }
