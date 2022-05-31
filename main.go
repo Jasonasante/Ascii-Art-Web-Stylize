@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"log"
 )
 
 type Text struct {
@@ -154,10 +155,15 @@ func asciiArt(s string, b string) string {
 
 // this opens the server
 func main() {
-	fmt.Println("Starting Server at Port 8080")
-	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
+	
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/ascii-art", asciiPage)
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
-	http.ListenAndServe(":8080", nil)
+	
+	fmt.Printf("Starting server at port 8080\n")
+	fmt.Println("Go on http://localhost:8080") // Prints the link of the website on the command prompt
+	fmt.Printf("\nTo shutdown the server and exit the code hit \"crtl+C\"\n")
+	if err := http.ListenAndServe(":8080", nil); err != nil { // Launches the server on port 8080 if port 8080 is not already busy, else quit
+		log.Fatal(err)
+		 }
 }
